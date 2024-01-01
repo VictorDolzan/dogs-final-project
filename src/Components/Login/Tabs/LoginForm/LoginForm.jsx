@@ -1,36 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import Input from "../../../Forms/Input/Input.jsx";
 import Button from "../../../Forms/Button/Button.jsx";
 import useForm from "../../../../Hooks/useForm.jsx";
-import * as api from "../../../../api.jsx";
+import {UserContext} from "../../../../Context/UserContext.jsx";
 
 const LoginForm = () => {
     const username = useForm();
     const password = useForm();
-
-    useEffect(() => {
-        const token = window.localStorage.getItem('token');
-        if (token) getUser(token);
-    }, []);
-
-    async function getUser(token) {
-        const response = await api.GET(token, '/api/user');
-        console.log(response);
-    }
+    const { userLogin } = useContext(UserContext);
 
     async function handleSubmit(event) {
         event.preventDefault();
 
         if (username.validate() && password.validate()) {
-            let body = {
-                username: username.value,
-                password: password.value
-            };
-
-            const response = await api.POST(body, '/jwt-auth/v1/token');
-            window.localStorage.setItem('token', response.token);
-            await getUser(response.token);
+            userLogin(username.value, password.value);
         }
     }
 
