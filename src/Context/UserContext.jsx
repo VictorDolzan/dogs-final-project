@@ -1,5 +1,5 @@
 import React, {createContext, useCallback, useEffect, useState} from 'react';
-import * as api from '../api.jsx';
+import * as api from '../Api.jsx';
 import {useNavigate} from "react-router-dom";
 
 export const UserContext = createContext();
