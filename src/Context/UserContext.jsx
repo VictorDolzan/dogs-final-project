@@ -1,14 +1,14 @@
-import React, {createContext, useCallback, useEffect, useState} from 'react';
-import * as api from '../Api.jsx';
-import {useNavigate} from "react-router-dom";
+import React, {createContext, useCallback, useEffect} from 'react';
+import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from '../Api.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export const UserContext = createContext();
 
-export const UserStorage = ({children}) => {
-    const [data, setData] = useState(null);
-    const [login, setLogin] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+export const UserStorage = ({ children }) => {
+    const [data, setData] = React.useState(null);
+    const [login, setLogin] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
     const navigate = useNavigate();
 
     const userLogOut = useCallback(async function () {
@@ -21,8 +21,10 @@ export const UserStorage = ({children}) => {
     }, [navigate]);
 
     async function getUser(token) {
-        const response = await api.GET(token, '/api/user');
-        setData(response);
+        const { url, options } = USER_GET(token);
+        const response = await fetch(url, options);
+        const json = await response.json();
+        setData(json);
         setLogin(true);
     }
 
@@ -30,16 +32,12 @@ export const UserStorage = ({children}) => {
         try {
             setError(null);
             setLoading(true);
-
-            let body = {
-                username: username,
-                password: password
-            };
-
-            const response = await api.POST(body, '/jwt-auth/v1/token');
-            if (response.data !== undefined && response.data.status === 403) throw new Error(`Erro: ${response.message}`)
-            window.localStorage.setItem('token', response.token);
-            await getUser(response.token);
+            const { url, options } = TOKEN_POST({ username, password });
+            const tokenRes = await fetch(url, options);
+            if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.statusText}`);
+            const { token } = await tokenRes.json();
+            window.localStorage.setItem('token', token);
+            await getUser(token);
             navigate('/conta');
         } catch (err) {
             setError(err.message);
@@ -52,30 +50,29 @@ export const UserStorage = ({children}) => {
     useEffect(() => {
         async function autoLogin() {
             const token = window.localStorage.getItem('token');
-
             if (token) {
                 try {
                     setError(null);
                     setLoading(true);
-                    const response = await api.POST(null, '/jwt-auth/v1/token/validate', token);
-                    if (response.data.status !== 200) throw new Error('Token inválido');
+                    const { url, options } = TOKEN_VALIDATE_POST(token);
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error('Token inválido');
                     await getUser(token);
-                    navigate('/conta');
                 } catch (err) {
-                    await userLogOut();
+                    userLogOut();
                 } finally {
                     setLoading(false);
                 }
             }
-
         }
-
         autoLogin();
-
     }, [userLogOut]);
 
     return (
         <UserContext.Provider
-            value={{userLogin, data, userLogOut, error, loading, login}}>{children}</UserContext.Provider>
+            value={{ userLogin, userLogOut, data, error, loading, login }}
+        >
+            {children}
+        </UserContext.Provider>
     );
 };

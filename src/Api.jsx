@@ -1,69 +1,51 @@
-export const API_URL = 'https://dogsapi.origamid.dev/json'
+export const API_URL = 'https://dogsapi.origamid.dev/json';
 
-export async function POST(body, url, token) {
-    if ((token !== undefined && body === null) || (token !== null && body === null)) {
-        const request = {
-            url: API_URL + url,
-            options: {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + token
-                }
+export function TOKEN_POST(body) {
+    return {
+        url: API_URL + '/jwt-auth/v1/token',
+        options: {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
-        };
-
-        const response = await fetch(request.url, request.options);
-        const json = await response.json();
-        return json;
-
-    } else {
-        const request = {
-            url: API_URL + url,
-            options: {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            },
-        };
-
-        const response = await fetch(request.url, request.options);
-        const json = await response.json();
-        return json;
-    }
+            body: JSON.stringify(body),
+        },
+    };
 }
 
-export async function GET(token, url, body) {
-    if (body !== undefined || body !== null) {
-        const requestWithBody = {
-            url: API_URL + url,
-            options: {
-                method: 'GET',
-                headers: {
-                    Authorization: 'Bearer ' + token
-                },
-                body: JSON.stringify(body)
+export function TOKEN_VALIDATE_POST(token) {
+    return {
+        url: API_URL + '/jwt-auth/v1/token/validate',
+        options: {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
             },
-        };
+        },
+    };
+}
 
-        const response = await fetch(requestWithBody.url, requestWithBody.options);
-        const json = await response.json();
-        return json;
-
-    } else {
-        const request = {
-            url: API_URL + url,
-            options: {
-                method: 'GET',
-                headers: {
-                    Authorization: 'Bearer ' + token
-                },
+export function USER_GET(token) {
+    return {
+        url: API_URL + '/api/user',
+        options: {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + token,
             },
-        };
+        },
+    };
+}
 
-        const response = await fetch(request.url, request.options);
-        const json = await response.json();
-        return json;
-    }
+export function USER_POST(body) {
+    return {
+        url: API_URL + '/api/user',
+        options: {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        },
+    };
 }
