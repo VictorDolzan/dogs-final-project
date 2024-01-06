@@ -17,8 +17,7 @@ export const UserStorage = ({ children }) => {
         setLoading(false);
         setLogin(false);
         window.localStorage.removeItem('token');
-        navigate('/login');
-    }, [navigate]);
+    }, []);
 
     async function getUser(token) {
         const { url, options } = USER_GET(token);
@@ -71,9 +70,7 @@ export const UserStorage = ({ children }) => {
     }, [userLogOut]);
 
     return (
-        <UserContext.Provider
-            value={{ userLogin, userLogOut, data, error, loading, login }}
-        >
+        <UserContext.Provider value={{ userLogin, userLogOut, data, error, loading, login }}>
             {children}
         </UserContext.Provider>
     );
