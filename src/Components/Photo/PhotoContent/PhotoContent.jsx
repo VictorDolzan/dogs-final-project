@@ -6,12 +6,12 @@ import {UserContext} from "../../../Context/UserContext.jsx";
 import PhotoDelete from "../PhotoDelete/PhotoDelete.jsx";
 import Image from "../../Helper/Image/Image.jsx";
 
-const PhotoContent = ({data}) => {
+const PhotoContent = ({data, single}) => {
     const user = useContext(UserContext);
     const {photo, comments} = data;
 
     return (
-        <div className={styles.photo}>
+        <div className={`${styles.photo} ${single ? styles.photoSingle : ''}`}>
             <div className={styles.img}>
                 <Image src={photo.src} alt={photo.title}/>
             </div>
@@ -37,7 +37,7 @@ const PhotoContent = ({data}) => {
                     </ul>
                 </div>
             </div>
-            <PhotoComments id={photo.id} comentarios={comments} />
+            <PhotoComments single={single} id={photo.id} comments={comments} />
         </div>
     );
 };
