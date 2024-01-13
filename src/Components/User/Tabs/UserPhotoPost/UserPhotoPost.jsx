@@ -31,7 +31,6 @@ const UserPhotoPost = () => {
         const token = window.localStorage.getItem('token');
         const {url, options} = PHOTO_POST(formData, token);
         const requestApi = await request(url, options);
-        console.log(requestApi);
     }
 
     function handleImgChange({target}) {
@@ -47,7 +46,10 @@ const UserPhotoPost = () => {
                 <Input label="Nome" type="text" name="nome" {...nome} />
                 <Input label="Peso" type="number" name="peso" {...peso} />
                 <Input label="Idade" type="number" name="idade" {...idade} />
-                <input className={styles.file} type="file" name="img" id="img" onChange={handleImgChange}/>
+                <label className={styles.labelFile}>
+                    <input className={styles.file} type="file" name="img" id="img" onChange={handleImgChange}/>
+                    Carregue o arquivo
+                </label>
                 {
                     loading
                         ? (
@@ -57,7 +59,7 @@ const UserPhotoPost = () => {
                             <Button>Enviar</Button>
                         )
                 }
-                <Error error={error} />
+                <Error error={error}/>
             </form>
             <div>
                 {img.preview && (
