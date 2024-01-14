@@ -10,6 +10,7 @@ import ProtectedRoute from "./Components/Helper/ProtectedRoute/ProtectedRoute.js
 import User from "./Components/User/User.jsx";
 import Photo from "./Components/Photo/Photo.jsx";
 import UserProfile from "./Components/User/UserProfile/UserProfile.jsx";
+import NotFound from "./Components/Error/NotFound.jsx";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
                             <Route path="/conta/*" element={<ProtectedRoute><User/></ProtectedRoute>}/>
                             <Route path="photo/:id" element={<Photo />} />
                             <Route path="perfil/:user" element={<UserProfile />} />
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                         <Footer/>
                     </UserStorage>
