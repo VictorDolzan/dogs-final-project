@@ -9,6 +9,7 @@ import {UserStorage} from "./Context/UserContext.jsx";
 import ProtectedRoute from "./Components/Helper/ProtectedRoute/ProtectedRoute.jsx";
 import User from "./Components/User/User.jsx";
 import Photo from "./Components/Photo/Photo.jsx";
+import UserProfile from "./Components/User/UserProfile/UserProfile.jsx";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
                             <Route path="/login/*" element={<Login/>}/>
                             <Route path="/conta/*" element={<ProtectedRoute><User/></ProtectedRoute>}/>
                             <Route path="photo/:id" element={<Photo />} />
+                            <Route path="perfil/:user" element={<UserProfile />} />
                         </Routes>
                         <Footer/>
                     </UserStorage>
