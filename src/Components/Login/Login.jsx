@@ -6,6 +6,7 @@ import LoginCreate from "./Tabs/LoginCreate/LoginCreate.jsx";
 import LoginPasswordLost from "./Tabs/LoginPasswordLost/LoginPasswordLost.jsx";
 import LoginPasswordReset from "./Tabs/LoginPasswordReset/LoginPasswordReset.jsx";
 import {UserContext} from "../../Context/UserContext.jsx";
+import NotFound from "../Error/NotFound.jsx";
 
 const Login = () => {
     return (
@@ -16,6 +17,7 @@ const Login = () => {
                     <Route path="criar" element={<LoginCreate />}/>
                     <Route path="perdeu" element={<LoginPasswordLost />}/>
                     <Route path="resetar" element={<LoginPasswordReset />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </section>
