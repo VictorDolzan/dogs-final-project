@@ -30,7 +30,6 @@ const UserStats = () => {
             {data && (
                 <>
                     <UserGraphStats data={data}/>
-                    <h1>Estatísticas</h1>
                 </>
             )}
         </div>
