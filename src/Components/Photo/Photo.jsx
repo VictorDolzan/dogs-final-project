@@ -5,6 +5,7 @@ import {PHOTO_GET} from "../../Api.jsx";
 import Error from "../Helper/Error/Error.jsx";
 import Loading from "../Helper/Loading/Loading.jsx";
 import PhotoContent from "./PhotoContent/PhotoContent.jsx";
+import Head from "../Helper/Head/Head.jsx";
 
 const Photo = () => {
     const {id} = useParams();
@@ -26,6 +27,7 @@ const Photo = () => {
             )}
             {data && (
                 <section className="container mainContainer">
+                    <Head title={data.photo.title} />
                     <PhotoContent single={true} data={data} />
                 </section>
             )}
