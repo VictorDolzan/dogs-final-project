@@ -7,8 +7,13 @@ import LoginPasswordLost from "./Tabs/LoginPasswordLost/LoginPasswordLost.jsx";
 import LoginPasswordReset from "./Tabs/LoginPasswordReset/LoginPasswordReset.jsx";
 import {UserContext} from "../../Context/UserContext.jsx";
 import NotFound from "../Error/NotFound.jsx";
+import {useSelector} from "react-redux";
 
 const Login = () => {
+    const {data} = useSelector(state => state.user);
+
+    if (data) return <Navigate to="/conta" />
+
     return (
         <section className={styles.login}>
             <div className={styles.forms}>

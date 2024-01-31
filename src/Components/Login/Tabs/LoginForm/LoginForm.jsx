@@ -1,30 +1,38 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import Input from "../../../Forms/Input/Input.jsx";
 import Button from "../../../Forms/Button/Button.jsx";
 import useForm from "../../../../Hooks/useForm.jsx";
-import {UserContext} from "../../../../Context/UserContext.jsx";
 import Error from "../../../Helper/Error/Error.jsx";
 import styles from './LoginForm.module.css';
 import stylesBtn from '../../../Forms/Button/Button.module.css';
 import Head from "../../../Helper/Head/Head.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {userLogin} from "../../../../store/config/user.jsx";
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
     const username = useForm();
     const password = useForm();
-    const {userLogin, error, loading} = useContext(UserContext);
+
+    const {token, user} = useSelector(state => state);
+    const loading = token.loading || user.loading;
+    const error = token.error || user.error;
 
     async function handleSubmit(event) {
         event.preventDefault();
 
         if (username.validate() && password.validate()) {
-            userLogin(username.value, password.value);
+            dispatch(userLogin({
+                username: username.value,
+                password: password.value
+            }));
         }
     }
 
     return (
         <section className="animeLeft">
-            <Head title="Login" />
+            <Head title="Login"/>
             <h1 className="title">Login</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <Input label="Usuário" type="text" name="username" {...username} />
