@@ -7,7 +7,7 @@ import { USER_POST } from '../../../../Api.jsx';
 import useFetch from '../../../../Hooks/useFetch';
 import Head from "../../../Helper/Head/Head.jsx";
 import {useDispatch} from "react-redux";
-import {userLogin} from "../../../../store/config/user.jsx";
+import {userLogin} from "../../../../store/actions/user.jsx";
 
 const LoginCreate = () => {
     const username = useForm();

@@ -7,7 +7,6 @@ const PhotoComments = (props) => {
     const [comments, setComments] = useState(() => props.comments);
     const commentsSection = useRef(null);
     const {data} = useSelector(state => state.user);
-    console.log(data)
 
     useEffect(() => {
         commentsSection.current.scrollTop = commentsSection.current.scrollHeight;

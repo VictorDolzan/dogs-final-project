@@ -2,11 +2,20 @@ import React, {useEffect, useState} from 'react';
 import FeedModal from "./nav/FeedModal/FeedModal.jsx";
 import FeedPhotos from "./nav/FeedPhotos/FeedPhotos.jsx";
 import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {loadNewPhotos, resetFeedState} from "../../store/actions/feed.jsx";
+import Loading from "../Helper/Loading/Loading.jsx";
+import Error from "../Helper/Error/Error.jsx";
 
 const Feed = ({user}) => {
     const [modalPhoto, setModalPhoto] = useState(null);
-    const [pages, setPages] = useState([1]);
-    const [infinite, setInfinite] = useState(true);
+    const {infinite, loading, list, error} = useSelector(state => state.feed);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(resetFeedState());
+        dispatch(loadNewPhotos({user: user, total: 6}));
+    }, [dispatch, user]);
 
     useEffect(() => {
         let wait = false;
@@ -16,7 +25,7 @@ const Feed = ({user}) => {
                 const scroll = window.scrollY;
                 const height = document.body.offsetHeight - window.innerHeight;
                 if (scroll > height * .75 && !wait) {
-                    setPages((pages) => [...pages, pages.length + 1]);
+                    dispatch(loadNewPhotos({user: user, total: 6}));
                     wait = true;
                     setTimeout(() => {
                         wait = false;
@@ -31,7 +40,7 @@ const Feed = ({user}) => {
             window.removeEventListener('wheel', infiniteScroll);
             window.removeEventListener('scroll', infiniteScroll);
         }
-    }, [infinite]);
+    }, [infinite, dispatch, user]);
 
     return (
         <div>
@@ -41,15 +50,24 @@ const Feed = ({user}) => {
                     setModalPhoto={setModalPhoto}
                 />
             )}
-            {pages.map(page => (
-                <FeedPhotos
-                    setModalPhoto={setModalPhoto}
-                    user={user}
-                    page={page}
-                    key={page}
-                    setInfinite={setInfinite}
-                />
-            ))}
+            {loading && (
+                <Loading/>
+            )}
+            {list.length > 0 && (
+                <FeedPhotos setModalPhoto={setModalPhoto}/>
+            )}
+            {error && (
+                <Error error={error}/>
+            )}
+            {!infinite && !user && (
+                <p style={{
+                    textAlign: 'center',
+                    padding: '2rem 0 4rem 0',
+                    color: '#888'
+                }}>
+                    Não existem mais postagens
+                </p>
+            )}
         </div>
     );
 };

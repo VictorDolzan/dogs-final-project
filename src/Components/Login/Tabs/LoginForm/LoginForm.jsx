@@ -8,7 +8,7 @@ import styles from './LoginForm.module.css';
 import stylesBtn from '../../../Forms/Button/Button.module.css';
 import Head from "../../../Helper/Head/Head.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {userLogin} from "../../../../store/config/user.jsx";
+import {userLogin} from "../../../../store/actions/user.jsx";
 
 const LoginForm = () => {
     const dispatch = useDispatch();

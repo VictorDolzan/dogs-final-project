@@ -11,7 +11,7 @@ import Photo from "./Components/Photo/Photo.jsx";
 import UserProfile from "./Components/User/UserProfile/UserProfile.jsx";
 import NotFound from "./Components/Error/NotFound.jsx";
 import {useDispatch} from "react-redux";
-import {autoLogin} from "./store/config/user.jsx";
+import {autoLogin} from "./store/actions/user.jsx";
 
 function App() {
     const dispatch = useDispatch();
