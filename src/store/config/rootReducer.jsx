@@ -4,13 +4,15 @@ import token from "../actions/token.jsx";
 import user from '../actions/user.jsx';
 import feed from "../actions/feed.jsx";
 import ui from "../actions/ui.jsx";
+import {photoPost} from "../actions/photoPost.jsx";
 
 const reducer = combineReducers({
     photo,
     token,
     user,
     feed,
-    ui
+    ui,
+    photoPost
 });
 
 export default reducer;
