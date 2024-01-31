@@ -5,13 +5,14 @@ import LoginForm from "./Tabs/LoginForm/LoginForm.jsx";
 import LoginCreate from "./Tabs/LoginCreate/LoginCreate.jsx";
 import LoginPasswordLost from "./Tabs/LoginPasswordLost/LoginPasswordLost.jsx";
 import LoginPasswordReset from "./Tabs/LoginPasswordReset/LoginPasswordReset.jsx";
-import {UserContext} from "../../Context/UserContext.jsx";
 import NotFound from "../Error/NotFound.jsx";
 import {useSelector} from "react-redux";
+import Loading from "../Helper/Loading/Loading.jsx";
 
 const Login = () => {
-    const {data} = useSelector(state => state.user);
+    const {data, loading} = useSelector(state => state.user);
 
+    if (loading) return <Loading />
     if (data) return <Navigate to="/conta" />
 
     return (

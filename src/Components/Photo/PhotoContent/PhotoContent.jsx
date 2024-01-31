@@ -2,13 +2,12 @@ import React, {useContext} from 'react';
 import styles from './PhotoContent.module.css'
 import {Link} from "react-router-dom";
 import PhotoComments from "../PhotoComments/PhotoComments.jsx";
-import {UserContext} from "../../../Context/UserContext.jsx";
 import PhotoDelete from "../PhotoDelete/PhotoDelete.jsx";
 import Image from "../../Helper/Image/Image.jsx";
 import {useSelector} from "react-redux";
 
 const PhotoContent = ({single}) => {
-    const user = useContext(UserContext);
+    const user = useSelector(state => state.user);
     const {photo, comments} = useSelector(state => state.photo.data);
 
     return (
