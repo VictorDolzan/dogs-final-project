@@ -24,13 +24,13 @@ export function fetchPhotoError(error){
 
 export async function fetchPhoto(id){
     try {
-        store.dispatch(fetchPhotoStarted());
+        fetchPhotoStarted()
         const {url, options} = PHOTO_GET(id);
         const response = await fetch(url, options);
         const data = await response.json();
         if (response.ok === false) throw new Error(data.message);
-        store.dispatch(fetchPhotoSuccess(data));
+        fetchPhotoSuccess(data)
     } catch (error) {
-        store.dispatch(fetchPhotoError(error.message));
+        fetchPhotoError(error.message)
     }
 }
