@@ -15,7 +15,7 @@ const photo = (state = INITIAL_STATE, action) => {
         case TYPES.FETCH_PHOTO_ERROR:
             return {...state, loading: false, data: null, error: action.payload};
         default:
-            return {...state}
+            return state
     }
 }
 
