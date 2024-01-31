@@ -7,7 +7,7 @@ import Sair from '../../../../../Assets/sair.svg?react';
 import styles from './UserHeaderNav.module.css';
 import useMedia from "../../../../../Hooks/useMedia.jsx";
 import {useDispatch} from "react-redux";
-import {userLogOut} from "../../../../../store/config/user.jsx";
+import {userLogOut} from "../../../../../store/actions/user.jsx";
 
 const UserHeaderNav = () => {
     const dispatch = useDispatch();
