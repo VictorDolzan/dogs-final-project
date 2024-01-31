@@ -8,7 +8,6 @@ import Loading from "../Helper/Loading/Loading.jsx";
 import Error from "../Helper/Error/Error.jsx";
 
 const Feed = ({user}) => {
-    const [modalPhoto, setModalPhoto] = useState(null);
     const {infinite, loading, list, error} = useSelector(state => state.feed);
     const dispatch = useDispatch();
 
@@ -44,17 +43,12 @@ const Feed = ({user}) => {
 
     return (
         <div>
-            {modalPhoto && (
-                <FeedModal
-                    photo={modalPhoto}
-                    setModalPhoto={setModalPhoto}
-                />
-            )}
+            <FeedModal />
             {loading && (
                 <Loading/>
             )}
             {list.length > 0 && (
-                <FeedPhotos setModalPhoto={setModalPhoto}/>
+                <FeedPhotos />
             )}
             {error && (
                 <Error error={error}/>
